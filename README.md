@@ -21,6 +21,8 @@ Fails with
 > Error: The pod "Firebase/Analytics" required by the plugin "firebase_analytics" requires a higher minimum macOS deployment version than the plugin's reported minimum version.
 
 ```
+$ flutter run -d macOS
+
 Launching lib/main.dart on macOS in debug mode...
 Running pod install...
 CocoaPods' output:
