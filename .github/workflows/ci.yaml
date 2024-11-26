@@ -1,0 +1,56 @@
+name: Distribution
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  demo_distro_ios:
+    name: iOS distribution demo
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.x'
+          channel: 'stable'
+
+      - name: Delete Podfile (let platform set it up)
+        working-directory: ios
+        run: |
+          rm -f Podfile
+          rm -f Podfile.lock
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Pod install
+        working-directory: ios
+        run: pod install
+
+      - name: Run build script
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build for iOS
+        run: flutter build ios --release --no-codesign
+
+
+
+
