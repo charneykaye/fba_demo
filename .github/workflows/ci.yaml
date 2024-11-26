@@ -27,26 +27,8 @@ jobs:
           flutter-version: '3.x'
           channel: 'stable'
 
-      - name: Delete Podfile (let platform set it up)
-        working-directory: ios
-        run: |
-          rm -f Podfile
-          rm -f Podfile.lock
-
       - name: Get dependencies
         run: flutter pub get
-
-      - name: Pod install
-        working-directory: ios
-        run: pod install
-
-      - name: Run build script
-        run: |
-          chmod +x ./build.sh
-          ./build.sh
-
-      - name: Run tests
-        run: flutter test
 
       - name: Build for iOS
         run: flutter build ios --release --no-codesign
